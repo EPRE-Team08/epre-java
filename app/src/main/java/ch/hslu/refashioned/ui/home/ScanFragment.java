@@ -1,4 +1,4 @@
-package ch.hslu.refashioned.ui.notifications;
+package ch.hslu.refashioned.ui.home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProvider;
 
 import ch.hslu.refashioned.R;
 
-public class NotificationsFragment extends Fragment {
+public class ScanFragment extends Fragment {
 
-    private NotificationsViewModel notificationsViewModel;
+    private ScanViewModel scanViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        notificationsViewModel =
-                new ViewModelProvider(this).get(NotificationsViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_notifications, container, false);
-        final TextView textView = root.findViewById(R.id.text_notifications);
-        notificationsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        scanViewModel =
+                new ViewModelProvider(this).get(ScanViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_scan, container, false);
+        final TextView textView = root.findViewById(R.id.text_home);
+        scanViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
