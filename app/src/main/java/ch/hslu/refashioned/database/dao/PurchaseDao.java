@@ -8,7 +8,7 @@ import java.util.List;
 import ch.hslu.refashioned.model.history.Purchase;
 
 @Dao
-public interface ClothingDao extends BaseDao<Purchase> {
+public interface PurchaseDao extends BaseDao<Purchase> {
     @Override
     @Query("SELECT * FROM Purchase")
     List<Purchase> get();
