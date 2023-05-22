@@ -1,35 +1,43 @@
 package ch.hslu.refashioned.ui.info;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import ch.hslu.refashioned.R;
 
-public class InfoFragment extends Fragment {
+/**
+ * A fragment representing a list of {@link ch.hslu.refashioned.model.info.InfoItem}.
+ */
+public final class InfoFragment extends Fragment {
+    private final InfoViewModel viewModel;
 
-    private InfoViewModel infoViewModel;
+    public InfoFragment() {
+        this.viewModel = new InfoViewModel();
+    }
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        infoViewModel =
-                new ViewModelProvider(this).get(InfoViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_info, container, false);
-        final TextView textView = root.findViewById(R.id.text_notifications);
-        infoViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
-        return root;
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_info_item_list, container, false);
+
+        if (view instanceof RecyclerView) {
+            Context context = view.getContext();
+            RecyclerView recyclerView = (RecyclerView) view;
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            recyclerView.setAdapter(new InfoItemRecyclerViewAdapter(this.viewModel.get()));
+        }
+        return view;
     }
 }
