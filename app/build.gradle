@@ -4,11 +4,10 @@ plugins {
 
 android {
     compileSdkVersion 33
-    buildToolsVersion "3.0.0"
 
     defaultConfig {
         applicationId "ch.hslu.refashioned"
-        minSdkVersion 19
+        minSdkVersion 26
         targetSdkVersion 33
         versionCode 1
         versionName "1.0"
@@ -29,6 +28,7 @@ android {
     buildFeatures {
         viewBinding true
     }
+    namespace 'ch.hslu.refashioned'
 }
 
 dependencies {
