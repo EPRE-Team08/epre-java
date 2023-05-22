@@ -6,7 +6,7 @@ import java.util.stream.Stream;
 
 import ch.hslu.refashioned.model.history.PurchaseType;
 
-public class PurchaseTypeConverter {
+public final class PurchaseTypeConverter {
     @TypeConverter
     public static PurchaseType to(final int value) {
         return Stream.of(PurchaseType.values())
