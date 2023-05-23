@@ -21,10 +21,6 @@ public final class Shop implements Speakable {
         this.location = location;
     }
 
-    public Type getType() {
-        return type;
-    }
-
     public String getName() {
         return name;
     }
@@ -35,6 +31,6 @@ public final class Shop implements Speakable {
 
     @Override
     public String getSpeakableText() {
-        return this.name + " on " + this.address + " in " + this.city + ", " + this.country;
+        return this.name + " is a " + this.type.getLabel() + " on " + this.address + " in " + this.city + ", " + this.country;
     }
 }
