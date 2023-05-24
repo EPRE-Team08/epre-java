@@ -13,7 +13,12 @@ public final class InfoItemRepo implements InfoItemService {
     }
 
     @Override
-    public List<InfoItem> get() {
-        return infoItemService.get();
+    public List<InfoItem> getAll() {
+        return infoItemService.getAll();
+    }
+
+    @Override
+    public InfoItem getById(String id) {
+        return infoItemService.getById(id);
     }
 }

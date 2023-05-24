@@ -1,9 +1,7 @@
 package ch.hslu.refashioned.service.info;
 
-import java.util.List;
-
 import ch.hslu.refashioned.model.info.InfoItem;
+import ch.hslu.refashioned.service.ReadService;
 
-public interface InfoItemService {
-    List<InfoItem> get();
+public interface InfoItemService extends ReadService<InfoItem, String> {
 }

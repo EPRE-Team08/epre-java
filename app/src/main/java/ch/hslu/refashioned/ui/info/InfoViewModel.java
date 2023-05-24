@@ -1,24 +1,23 @@
 package ch.hslu.refashioned.ui.info;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.List;
+
+import ch.hslu.refashioned.model.info.InfoItem;
 import ch.hslu.refashioned.repository.info.InfoItemRepo;
 import ch.hslu.refashioned.service.info.InfoItemService;
 import ch.hslu.refashioned.service.info.MockInfoItemService;
 
 public final class InfoViewModel extends ViewModel {
-
     private final InfoItemService infoItemService = new InfoItemRepo(new MockInfoItemService());
-    private final MutableLiveData<String> mText;
+    private final List<InfoItem> infoItems;
 
     public InfoViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is notifications fragment");
+        this.infoItems = infoItemService.getAll();
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public List<InfoItem> get() {
+        return this.infoItems;
     }
 }

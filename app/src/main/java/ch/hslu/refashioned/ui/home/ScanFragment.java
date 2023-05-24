@@ -8,15 +8,24 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.camera.core.ImageCapture;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import java.util.concurrent.ExecutorService;
+
 import ch.hslu.refashioned.R;
+import ch.hslu.refashioned.databinding.FragmentScanBinding;
+import ch.hslu.refashioned.ui.permission.PermissionManageable;
 
 public class ScanFragment extends Fragment {
 
     private ScanViewModel scanViewModel;
+    private FragmentScanBinding binding;
+    private ImageCapture imageCapture;
+    private ExecutorService cameraExecutor;
+    private PermissionManageable permissionManageable;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -31,5 +40,12 @@ public class ScanFragment extends Fragment {
             }
         });
         return root;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        cameraExecutor.shutdown();
+        binding = null;
     }
 }

@@ -1,17 +1,17 @@
 package ch.hslu.refashioned.model.info;
 
 public enum Category {
-    ADVERTISEMENT,
-    INFO,
-    EDUCATION
+    ADVERTISEMENT("Advertisement"),
+    INFO("Info"),
+    EDUCATION("Education");
 
-//    private final String label;
-//
-//    Category(String label) {
-//        this.label = label;
-//    }
-//
-//    public String getLabel() {
-//        return label;
-//    }
+    private final String label;
+
+    Category(String label) {
+        this.label = label;
+    }
+
+    public final String getLabel() {
+        return label;
+    }
 }

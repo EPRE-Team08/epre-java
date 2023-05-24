@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_scan">
+    app:startDestination="@+id/navigation_info">
 
     <fragment
         android:id="@+id/navigation_scan"
@@ -27,5 +27,5 @@
         android:id="@+id/navigation_info"
         android:name="ch.hslu.refashioned.ui.info.InfoFragment"
         android:label="@string/title_info"
-        tools:layout="@layout/fragment_info" />
+        tools:layout="@layout/fragment_info_item_list" />
 </navigation>

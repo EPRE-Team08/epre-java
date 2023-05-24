@@ -1,43 +1,35 @@
 package ch.hslu.refashioned.ui.map;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.Locale;
+import java.util.Optional;
+
 import ch.hslu.refashioned.R;
+import ch.hslu.refashioned.model.map.Shop;
+import ch.hslu.refashioned.ui.speech.Speaker;
 
-public class MapFragment extends Fragment {
+public final class MapFragment extends Fragment {
+    private final MapViewModel viewModel;
+    private Speaker speaker;
 
-    private OnMapReadyCallback callback = new OnMapReadyCallback() {
-
-        /**
-         * Manipulates the map once available.
-         * This callback is triggered when the map is ready to be used.
-         * This is where we can add markers or lines, add listeners or move the camera.
-         * In this case, we just add a marker near Sydney, Australia.
-         * If Google Play services is not installed on the device, the user will be prompted to
-         * install it inside the SupportMapFragment. This method will only be triggered once the
-         * user has installed Google Play services and returned to the app.
-         */
-        @Override
-        public void onMapReady(GoogleMap googleMap) {
-            LatLng sydney = new LatLng(-34, 151);
-            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        }
-    };
+    public MapFragment() {
+        this.viewModel = new MapViewModel();
+    }
 
     @Nullable
     @Override
@@ -52,8 +44,53 @@ public class MapFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        if (mapFragment != null) {
-            mapFragment.getMapAsync(callback);
+
+        if (mapFragment != null)
+            mapFragment.getMapAsync(this::populateMap);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if (getActivity() != null)
+            this.speaker = new Speaker(getActivity().getApplicationContext(), Locale.UK);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        this.speaker.dispose();
+    }
+
+    private void populateMap(final GoogleMap map) {
+        for (Shop shop : this.viewModel.get()) {
+            MarkerOptions options = new MarkerOptions();
+            options.position(shop.getLocation());
+            options.title(shop.getName());
+
+            Marker marker = map.addMarker(options);
+            this.viewModel.put(marker, shop);
         }
+
+        map.setOnMarkerClickListener(this::readShop);
+
+        Optional<Shop> shop = this.viewModel.get().stream().findFirst();
+        shop.ifPresent(s ->
+                map.moveCamera(CameraUpdateFactory.newCameraPosition(
+                        CameraPosition.builder()
+                                .target(s.getLocation())
+                                .zoom(12f)
+                                .build())));
+    }
+
+    private boolean readShop(final Marker marker) {
+        Shop shop = this.viewModel.get(marker);
+        this.speaker.speak(shop);
+
+        // The return value specifies whether the event was handled and
+        // thus the default behaviour should be skipped
+        return false;
     }
 }
