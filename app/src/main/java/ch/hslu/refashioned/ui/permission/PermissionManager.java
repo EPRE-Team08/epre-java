@@ -4,31 +4,64 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class PermissionManager {
-    private final Context context;
+    private final ActivityResultLauncher<String[]> activityResultLauncher;
+    private final Fragment fragment;
     private final String[] requiredPermissions;
+    private final Runnable onPermissionGrantedCallback;
 
-    public PermissionManager(Context context, String[] requiredPermissions) {
-        this.context = context;
+    private PermissionManager(Fragment fragment, String[] requiredPermissions, Runnable onPermissionGrantedCallback) {
+        this.fragment = fragment;
         this.requiredPermissions = requiredPermissions;
+        this.onPermissionGrantedCallback = onPermissionGrantedCallback;
+        this.activityResultLauncher = this.initActivityResultLauncher();
     }
 
     public boolean arePermissionsGranted() {
-        return Stream.of(requiredPermissions).allMatch(permission -> ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED);
+        return arePermissionsGranted(List.of(requiredPermissions), fragment.requireActivity());
+    }
+
+    public void requestPermission() {
+        if (arePermissionsGranted() && onPermissionGrantedCallback != null) {
+            onPermissionGrantedCallback.run();
+        } else {
+            this.activityResultLauncher.launch(requiredPermissions);
+        }
+    }
+
+    private static boolean arePermissionsGranted(List<String> requiredPermissions, @NotNull Context context) {
+        return requiredPermissions.stream().allMatch(permission -> ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED);
+    }
+
+    private ActivityResultLauncher<String[]> initActivityResultLauncher() {
+        return fragment.registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> {
+            if (result.values().stream().allMatch(granted -> granted) && arePermissionsGranted() && onPermissionGrantedCallback != null) {
+                onPermissionGrantedCallback.run();
+            }
+        });
     }
 
     public static class Builder implements PermissionManagerBuilderContext, PermissionManagerBuilderPermissions, PermissionManagerBuilderOptional {
-        List<String> requiredPermissions = new ArrayList<>();
-        private Context context;
+        private final List<String> requiredPermissions = new ArrayList<>();
+        private Runnable onPermissionGrantedCallback;
+        private Fragment fragment;
 
-        public Builder() {
+        private Builder() {
+        }
+
+        public static PermissionManagerBuilderContext getInstance() {
+            return new Builder();
         }
 
         @Override
@@ -46,13 +79,19 @@ public class PermissionManager {
         }
 
         @Override
-        public PermissionManager build() {
-            return new PermissionManager(context, requiredPermissions.toArray(new String[0]));
+        public PermissionManagerBuilderOptional onPermissionGranted(Runnable runnable) {
+            onPermissionGrantedCallback = runnable;
+            return this;
         }
 
         @Override
-        public PermissionManagerBuilderPermissions withContext(@NonNull Context context) {
-            this.context = context;
+        public PermissionManager build() {
+            return new PermissionManager(fragment, requiredPermissions.toArray(new String[0]), onPermissionGrantedCallback);
+        }
+
+        @Override
+        public PermissionManagerBuilderPermissions forFragment(@NonNull Fragment fragment) {
+            this.fragment = fragment;
             return this;
         }
     }

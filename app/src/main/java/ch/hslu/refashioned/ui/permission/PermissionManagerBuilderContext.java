@@ -1,9 +1,9 @@
 package ch.hslu.refashioned.ui.permission;
 
-import android.content.Context;
+import androidx.fragment.app.Fragment;
 
-import androidx.annotation.NonNull;
+import org.jetbrains.annotations.NotNull;
 
 public interface PermissionManagerBuilderContext {
-    PermissionManagerBuilderPermissions withContext(@NonNull Context context);
+    PermissionManagerBuilderPermissions forFragment(@NotNull Fragment fragment);
 }
