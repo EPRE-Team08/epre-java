@@ -14,7 +14,7 @@ public final class InfoViewModel extends ViewModel {
     private final List<InfoItem> infoItems;
 
     public InfoViewModel() {
-        this.infoItems = infoItemService.get();
+        this.infoItems = infoItemService.getAll();
     }
 
     public List<InfoItem> get() {

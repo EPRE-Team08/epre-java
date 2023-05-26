@@ -14,12 +14,16 @@ public final class Purchase {
     private final String imagePath;
     private final PurchaseType type;
     private final ClothingType clothingType;
+    private final Brand brand;
+    private final int score;
 
-    public Purchase(@NonNull final LocalDateTime dateTime, final String imagePath, final PurchaseType type, final ClothingType clothingType) {
+    public Purchase(@NonNull final LocalDateTime dateTime, final String imagePath, final PurchaseType type, final ClothingType clothingType, Brand brand, final int score) {
         this.dateTime = dateTime;
         this.imagePath = imagePath;
         this.type = type;
         this.clothingType = clothingType;
+        this.brand = brand;
+        this.score = score;
     }
 
     @NonNull
@@ -37,5 +41,13 @@ public final class Purchase {
 
     public ClothingType getClothingType() {
         return clothingType;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public Brand getBrand() {
+        return brand;
     }
 }

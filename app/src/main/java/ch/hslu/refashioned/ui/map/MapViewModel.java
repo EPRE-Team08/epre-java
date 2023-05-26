@@ -18,7 +18,7 @@ public final class MapViewModel extends ViewModel {
     private final Map<Marker, Shop> shopMap = new HashMap<>();
 
     public MapViewModel() {
-        this.shops = repo.get();
+        this.shops = repo.getAll();
     }
 
     public List<Shop> get() {

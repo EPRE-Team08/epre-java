@@ -16,7 +16,12 @@ public final class MockInfoItemService implements InfoItemService {
     }
 
     @Override
-    public List<InfoItem> get() {
+    public List<InfoItem> getAll() {
         return this.items;
+    }
+
+    @Override
+    public InfoItem getById(String title) {
+        return this.items.stream().filter(x -> x.getTitle().equals(title)).findFirst().orElse(null);
     }
 }

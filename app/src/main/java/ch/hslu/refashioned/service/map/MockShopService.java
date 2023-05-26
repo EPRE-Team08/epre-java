@@ -19,7 +19,12 @@ public final class MockShopService implements ShopService {
     }
 
     @Override
-    public List<Shop> get() {
+    public List<Shop> getAll() {
         return this.items;
+    }
+
+    @Override
+    public Shop getById(LatLng location) {
+        return this.items.stream().filter(x -> x.getLocation().equals(location)).findFirst().orElse(null);
     }
 }

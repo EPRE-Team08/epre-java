@@ -19,6 +19,4 @@ public interface BaseDao<T> {
 
     @Update
     void update(T item);
-
-    List<T> get();
 }

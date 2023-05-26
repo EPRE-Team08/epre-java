@@ -1,5 +1,7 @@
 package ch.hslu.refashioned.repository.map;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.List;
 
 import ch.hslu.refashioned.model.map.Shop;
@@ -12,8 +14,12 @@ public final class ShopRepo implements ShopService {
         this.service = service;
     }
 
+    public List<Shop> getAll() {
+        return service.getAll();
+    }
+
     @Override
-    public List<Shop> get() {
-        return service.get();
+    public Shop getById(LatLng location) {
+        return service.getById(location);
     }
 }
