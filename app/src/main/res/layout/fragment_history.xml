@@ -1,64 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:layout_height="match_parent"
+    tools:context=".ui.history.HistoryFragment">
 
-    <ImageView
-        android:id="@+id/scanned_image"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:importantForAccessibility="no"
-        android:minWidth="75dp"
-        android:maxWidth="75dp"
-        android:src="@drawable/ic_history" />
-
-    <LinearLayout
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/userScore"
+        android:name="ch.hslu.refashioned.ui.userScore.UserScoreFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/history"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout="@layout/fragment_user_score" />
 
-        <TextView
-            android:id="@+id/category"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin_secondary"
-            android:hint="Category"
-            android:textAppearance="?attr/textAppearanceListItemSmall" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/brand"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:hint="Brand"
-                android:layout_margin="@dimen/text_margin_secondary"
-                android:textAppearance="?attr/textAppearanceListItem" />
-
-            <TextView
-                android:id="@+id/score"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/text_margin_secondary"
-                android:textStyle="bold"
-                android:hint="Score"
-                android:textAppearance="?attr/textAppearanceListItem" />
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin_secondary"
-            android:hint="Date"
-            android:textAppearance="?attr/textAppearanceListItemSecondary" />
-
-        <com.google.android.material.divider.MaterialDivider
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/divider_height" />
-    </LinearLayout>
-</LinearLayout>
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/history"
+        android:name="ch.hslu.refashioned.ui.purchases.PurchasesFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/userScore"
+        tools:layout="@layout/fragment_purchases" />
+</androidx.constraintlayout.widget.ConstraintLayout>

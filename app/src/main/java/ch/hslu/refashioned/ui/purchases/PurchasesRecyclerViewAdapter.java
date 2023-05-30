@@ -1,4 +1,4 @@
-package ch.hslu.refashioned.ui.history;
+package ch.hslu.refashioned.ui.purchases;
 
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -11,22 +11,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import ch.hslu.refashioned.databinding.FragmentHistoryBinding;
+import ch.hslu.refashioned.databinding.FragmentPurchaseBinding;
 import ch.hslu.refashioned.model.history.Purchase;
 import ch.hslu.refashioned.ui.util.DateFormats;
 
-public final class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecyclerViewAdapter.ViewHolder> {
+public final class PurchasesRecyclerViewAdapter extends RecyclerView.Adapter<PurchasesRecyclerViewAdapter.ViewHolder> {
 
     private final List<Purchase> mValues;
 
-    public HistoryRecyclerViewAdapter(final List<Purchase> items) {
+    public PurchasesRecyclerViewAdapter(final List<Purchase> items) {
         mValues = items;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(FragmentHistoryBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+        return new ViewHolder(FragmentPurchaseBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     @Override
@@ -52,7 +52,7 @@ public final class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<Histo
         public final TextView mScore;
         public Purchase mItem;
 
-        public ViewHolder(FragmentHistoryBinding binding) {
+        public ViewHolder(FragmentPurchaseBinding binding) {
             super(binding.getRoot());
             mImage = binding.scannedImage;
             mCategory = binding.category;

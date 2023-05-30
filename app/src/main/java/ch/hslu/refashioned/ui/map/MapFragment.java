@@ -22,7 +22,6 @@ import java.util.Optional;
 
 import ch.hslu.refashioned.R;
 import ch.hslu.refashioned.model.map.Shop;
-import ch.hslu.refashioned.ui.history.HistoryViewModel;
 import ch.hslu.refashioned.ui.speech.Speaker;
 
 public final class MapFragment extends Fragment {
