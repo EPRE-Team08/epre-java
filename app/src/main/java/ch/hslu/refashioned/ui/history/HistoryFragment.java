@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import ch.hslu.refashioned.R;
-import ch.hslu.refashioned.ui.home.ScanViewModel;
 
 public final class HistoryFragment extends Fragment {
 

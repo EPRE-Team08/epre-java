@@ -1,19 +1,18 @@
 package ch.hslu.refashioned.ui.history;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import ch.hslu.refashioned.model.history.Purchase;
-import ch.hslu.refashioned.placeholder.PlaceholderContent.PlaceholderItem;
-import ch.hslu.refashioned.databinding.FragmentHistoryBinding;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+
+import ch.hslu.refashioned.databinding.FragmentHistoryBinding;
+import ch.hslu.refashioned.model.history.Purchase;
 
 public final class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecyclerViewAdapter.ViewHolder> {
 
@@ -36,7 +35,7 @@ public final class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<Histo
         holder.mCategory.setText(holder.mItem.getClothingType().getLabel());
         holder.mBrand.setText(holder.mItem.getBrand().getLabel());
         holder.mDate.setText(holder.mItem.getDateTime().toString());
-        holder.mScore.setText(holder.mItem.getScore());
+        holder.mScore.setText(String.valueOf(holder.mItem.getScore()));
     }
 
     @Override

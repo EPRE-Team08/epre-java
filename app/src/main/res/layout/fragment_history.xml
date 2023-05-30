@@ -8,7 +8,9 @@
         android:id="@+id/scanned_image"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:minWidth="100dp"
+        android:importantForAccessibility="no"
+        android:minWidth="75dp"
+        android:maxWidth="75dp"
         android:src="@drawable/ic_history" />
 
     <LinearLayout
@@ -21,25 +23,42 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin_secondary"
-            android:textAppearance="?attr/textAppearanceListItem" />
+            android:hint="Category"
+            android:textAppearance="?attr/textAppearanceListItemSmall" />
 
-        <TextView
-            android:id="@+id/brand"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin_secondary" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/brand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:hint="Brand"
+                android:layout_margin="@dimen/text_margin_secondary"
+                android:textAppearance="?attr/textAppearanceListItem" />
+
+            <TextView
+                android:id="@+id/score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/text_margin_secondary"
+                android:textStyle="bold"
+                android:hint="Score"
+                android:textAppearance="?attr/textAppearanceListItem" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin_secondary" />
-
-        <TextView
-            android:id="@+id/score"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin_secondary"
-            android:textColor="@color/green_score" />
+            android:hint="Date"
+            android:textAppearance="?attr/textAppearanceListItemSecondary" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_height" />
     </LinearLayout>
 </LinearLayout>
