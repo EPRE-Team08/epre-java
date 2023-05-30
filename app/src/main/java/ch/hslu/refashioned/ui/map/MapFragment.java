@@ -62,7 +62,7 @@ public final class MapFragment extends Fragment {
         super.onStart();
 
         if (getActivity() != null)
-            this.speaker = new Speaker(getActivity().getApplicationContext(), Locale.UK);
+            this.speaker = new Speaker(getActivity().getApplicationContext(), Locale.getDefault());
     }
 
     @Override
