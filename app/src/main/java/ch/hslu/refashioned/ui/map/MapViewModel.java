@@ -11,14 +11,15 @@ import java.util.Map;
 import ch.hslu.refashioned.model.map.Shop;
 import ch.hslu.refashioned.repository.map.ShopRepo;
 import ch.hslu.refashioned.service.map.MockShopService;
+import ch.hslu.refashioned.service.map.ShopService;
 
 public final class MapViewModel extends ViewModel {
-    private final ShopRepo repo = new ShopRepo(new MockShopService());
+    private final ShopService service = new ShopRepo(new MockShopService());
     private final List<Shop> shops;
     private final Map<Marker, Shop> shopMap = new HashMap<>();
 
     public MapViewModel() {
-        this.shops = repo.getAll();
+        this.shops = service.getAll();
     }
 
     public List<Shop> get() {

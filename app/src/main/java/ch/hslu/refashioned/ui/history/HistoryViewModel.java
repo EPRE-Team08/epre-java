@@ -1,19 +1,26 @@
 package ch.hslu.refashioned.ui.history;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
+import android.content.Context;
+
 import androidx.lifecycle.ViewModel;
 
-public class HistoryViewModel extends ViewModel {
+import java.util.List;
 
-    private MutableLiveData<String> mText;
+import ch.hslu.refashioned.model.history.Purchase;
+import ch.hslu.refashioned.repository.history.PurchaseRepo;
+import ch.hslu.refashioned.service.history.PurchaseService;
+import ch.hslu.refashioned.service.history.RoomPurchaseService;
 
-    public HistoryViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is dashboard fragment");
+public final class HistoryViewModel extends ViewModel {
+    private final PurchaseService service;
+    private final List<Purchase> purchases;
+
+    public HistoryViewModel(final Context context) {
+        this.service = new PurchaseRepo(new RoomPurchaseService(context));
+        this.purchases = this.service.getAll();
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public List<Purchase> get() {
+        return purchases;
     }
 }
