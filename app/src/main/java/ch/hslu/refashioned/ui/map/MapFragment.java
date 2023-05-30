@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -21,14 +22,20 @@ import java.util.Optional;
 
 import ch.hslu.refashioned.R;
 import ch.hslu.refashioned.model.map.Shop;
+import ch.hslu.refashioned.ui.history.HistoryViewModel;
 import ch.hslu.refashioned.ui.speech.Speaker;
 
 public final class MapFragment extends Fragment {
-    private final MapViewModel viewModel;
+    private MapViewModel viewModel;
     private Speaker speaker;
 
     public MapFragment() {
-        this.viewModel = new MapViewModel();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        this.viewModel = new ViewModelProvider(this).get(MapViewModel.class);
     }
 
     @Nullable
@@ -44,6 +51,7 @@ public final class MapFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+
 
         if (mapFragment != null)
             mapFragment.getMapAsync(this::populateMap);

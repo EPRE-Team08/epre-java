@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,15 +17,16 @@ import ch.hslu.refashioned.R;
  * A fragment representing a list of {@link ch.hslu.refashioned.model.info.InfoItem}.
  */
 public final class InfoFragment extends Fragment {
-    private final InfoViewModel viewModel;
+    private InfoViewModel viewModel;
 
     public InfoFragment() {
-        this.viewModel = new InfoViewModel();
+
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.viewModel = new ViewModelProvider(this).get(InfoViewModel.class);
     }
 
     @Override

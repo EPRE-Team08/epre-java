@@ -7,10 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import ch.hslu.refashioned.R;
+import ch.hslu.refashioned.ui.home.ScanViewModel;
 
 public final class HistoryFragment extends Fragment {
 
@@ -22,7 +24,7 @@ public final class HistoryFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.viewModel = new HistoryViewModel(this.getContext());
+        this.viewModel = new ViewModelProvider(this).get(HistoryViewModel.class);
     }
 
     @Override

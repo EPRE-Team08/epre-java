@@ -14,7 +14,7 @@ import ch.hslu.refashioned.service.history.RoomPurchaseService;
 public final class HistoryViewModel extends ViewModel {
     private final PurchaseService service;
     private final List<Purchase> purchases;
-
+    
     public HistoryViewModel(final Context context) {
         this.service = new PurchaseRepo(new RoomPurchaseService(context));
         this.purchases = this.service.getAll();
