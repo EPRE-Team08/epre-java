@@ -12,7 +12,7 @@ import ch.hslu.refashioned.database.dao.PurchaseDao;
 import ch.hslu.refashioned.model.history.Purchase;
 import ch.hslu.refashioned.repository.history.PurchaseRepo;
 
-public class RoomPurchaseService implements PurchaseService {
+public final class RoomPurchaseService implements PurchaseService {
     private final PurchaseDao purchaseDao;
 
     public RoomPurchaseService(Context context) {

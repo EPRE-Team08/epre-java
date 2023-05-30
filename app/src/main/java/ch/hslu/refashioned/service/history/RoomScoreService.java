@@ -11,7 +11,7 @@ import ch.hslu.refashioned.database.AppDatabase;
 import ch.hslu.refashioned.database.dao.ScoreDao;
 import ch.hslu.refashioned.repository.history.PurchaseRepo;
 
-public class RoomScoreService implements ScoreService {
+public final class RoomScoreService implements ScoreService {
     private final ScoreDao scoreDao;
 
     public RoomScoreService(Context context) {
