@@ -15,11 +15,11 @@ public final class MockPurchaseService implements PurchaseService {
 
     public MockPurchaseService() {
         purchases.add(new Purchase(
-                LocalDateTime.now(), "test", PurchaseType.FIRST_HAND, ClothingType.PANTS, Brand.PUMA, 103
+                LocalDateTime.now(), "", PurchaseType.FIRST_HAND, ClothingType.PANTS, Brand.PUMA, Brand.PUMA.getScore().getOverall()
         ));
 
         purchases.add(new Purchase(
-                LocalDateTime.now(), "test", PurchaseType.SECOND_HAND, ClothingType.SHIRT, Brand.PUMA, 121
+                LocalDateTime.now(), "", PurchaseType.SECOND_HAND, ClothingType.SHIRT, Brand.PUMA, Brand.PUMA.getScore().getOverall()
         ));
     }
 

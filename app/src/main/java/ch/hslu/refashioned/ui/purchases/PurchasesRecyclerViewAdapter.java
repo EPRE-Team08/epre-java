@@ -32,7 +32,8 @@ public final class PurchasesRecyclerViewAdapter extends RecyclerView.Adapter<Pur
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mImage.setImageURI(Uri.parse(holder.mItem.getImagePath()));
+        if (!holder.mItem.getImagePath().isEmpty())
+            holder.mImage.setImageURI(Uri.parse(holder.mItem.getImagePath()));
         holder.mCategory.setText(holder.mItem.getClothingType().getLabel());
         holder.mBrand.setText(holder.mItem.getBrand().getLabel());
         holder.mDate.setText(holder.mItem.getDateTime().format(DateFormats.getDefault()));
