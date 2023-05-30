@@ -13,6 +13,7 @@ import java.util.List;
 
 import ch.hslu.refashioned.databinding.FragmentHistoryBinding;
 import ch.hslu.refashioned.model.history.Purchase;
+import ch.hslu.refashioned.ui.util.DateFormats;
 
 public final class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecyclerViewAdapter.ViewHolder> {
 
@@ -34,7 +35,7 @@ public final class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<Histo
         holder.mImage.setImageURI(Uri.parse(holder.mItem.getImagePath()));
         holder.mCategory.setText(holder.mItem.getClothingType().getLabel());
         holder.mBrand.setText(holder.mItem.getBrand().getLabel());
-        holder.mDate.setText(holder.mItem.getDateTime().toString());
+        holder.mDate.setText(holder.mItem.getDateTime().format(DateFormats.getDefault()));
         holder.mScore.setText(String.valueOf(holder.mItem.getScore()));
     }
 
