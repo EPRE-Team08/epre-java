@@ -5,7 +5,7 @@
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UserScoreFragment">
+    tools:context=".ui.userScore.UserScoreFragment">
 
     <TextView
         android:id="@+id/title"
