@@ -17,7 +17,6 @@ public final class MockPurchaseService implements PurchaseService {
         purchases.add(new Purchase(
                 LocalDateTime.now(), "", PurchaseType.FIRST_HAND, ClothingType.PANTS, Brand.PUMA, Brand.PUMA.getScore().getOverall()
         ));
-
         purchases.add(new Purchase(
                 LocalDateTime.now(), "", PurchaseType.SECOND_HAND, ClothingType.SHIRT, Brand.PUMA, Brand.PUMA.getScore().getOverall()
         ));
@@ -50,6 +49,7 @@ public final class MockPurchaseService implements PurchaseService {
         return purchases;
     }
 
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
     @Override
     public Purchase getById(LocalDateTime id) {
         return purchases.stream()

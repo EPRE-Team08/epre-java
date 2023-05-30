@@ -8,9 +8,10 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import java.util.stream.Stream;
+
 import ch.hslu.refashioned.model.history.Brand;
 import ch.hslu.refashioned.model.history.Purchase;
-import ch.hslu.refashioned.model.sustainability.Score;
 import ch.hslu.refashioned.repository.history.PurchaseRepo;
 import ch.hslu.refashioned.service.history.MockPurchaseService;
 import ch.hslu.refashioned.service.history.PurchaseService;
@@ -30,21 +31,8 @@ public final class UserScoreViewModel extends AndroidViewModel {
         this.service = new PurchaseRepo(new MockPurchaseService());
 
         this.score = new MutableLiveData<>(service.getAll().stream().mapToInt(Purchase::getScore).sum());
-        this.maxScore = service.getAll()
-                .stream()
-                .map(Purchase::getBrand)
-                .map(Brand::getScore)
-                .mapToInt(Score::getOverall)
-                .max()
-                .orElse(0) * service.getAll().size();
-        this.minScore = service.getAll()
-                .stream()
-                .map(Purchase::getBrand)
-                .map(Brand::getScore)
-                .mapToInt(Score::getOverall)
-                .min()
-                .orElse(0) * service.getAll().size();
-
+        this.maxScore = Stream.of(Brand.values()).mapToInt(b -> b.getScore().getOverall()).max().orElse(0) * service.getAll().size();
+        this.minScore = Stream.of(Brand.values()).mapToInt(b -> b.getScore().getOverall()).min().orElse(0) * service.getAll().size();
         this.scoreColor = new MutableLiveData<>(getColor(minScore, maxScore, score.getValue()));
     }
 
