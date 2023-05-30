@@ -21,6 +21,18 @@ public final class MockPurchaseService implements PurchaseService {
         purchases.add(new Purchase(
                 LocalDateTime.now(), "", PurchaseType.SECOND_HAND, ClothingType.SHIRT, Brand.PUMA, Brand.PUMA.getScore().getOverall()
         ));
+        purchases.add(new Purchase(
+                LocalDateTime.now(), "", PurchaseType.SECOND_HAND, ClothingType.SHIRT, Brand.PUMA, 10
+        ));
+        purchases.add(new Purchase(
+                LocalDateTime.now(), "", PurchaseType.SECOND_HAND, ClothingType.SHIRT, Brand.PUMA, 13
+        ));
+        purchases.add(new Purchase(
+                LocalDateTime.now(), "", PurchaseType.SECOND_HAND, ClothingType.SHIRT, Brand.PUMA, 30
+        ));
+        purchases.add(new Purchase(
+                LocalDateTime.now(), "", PurchaseType.SECOND_HAND, ClothingType.SHIRT, Brand.PUMA, 1
+        ));
     }
 
     @Override
