@@ -13,13 +13,13 @@ import java.util.List;
 
 import ch.hslu.refashioned.databinding.FragmentPurchaseBinding;
 import ch.hslu.refashioned.model.history.Purchase;
-import ch.hslu.refashioned.ui.color.GradientColor;
+import ch.hslu.refashioned.ui.color.ColorFactory;
 import ch.hslu.refashioned.ui.color.GradientProvider;
 import ch.hslu.refashioned.ui.util.DateFormats;
 
 public final class PurchasesRecyclerViewAdapter extends RecyclerView.Adapter<PurchasesRecyclerViewAdapter.ViewHolder> {
 
-    private final GradientColor gradient = GradientProvider.getScoreGradient();
+    private final ColorFactory colorFactory = GradientProvider.getScoreGradient();
     private final List<Purchase> mValues;
 
     public PurchasesRecyclerViewAdapter(final List<Purchase> items) {
@@ -41,7 +41,7 @@ public final class PurchasesRecyclerViewAdapter extends RecyclerView.Adapter<Pur
         holder.mBrand.setText(holder.mItem.getBrand().getLabel());
         holder.mDate.setText(holder.mItem.getDateTime().format(DateFormats.getDefault()));
         holder.mScore.setText(String.valueOf(holder.mItem.getScore()));
-        holder.mScore.setTextColor(gradient.getColor(holder.mItem.getScore()).toArgb());
+        holder.mScore.setTextColor(colorFactory.getColor(holder.mItem.getScore()).toArgb());
     }
 
     @Override

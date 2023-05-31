@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public final class MultiGradient implements GradientColor {
-    private final List<Gradient> gradients = new ArrayList<>();
+public final class MultiGradientFactory implements ColorFactory {
+    private final List<GradientFactory> gradientFactories = new ArrayList<>();
 
-    public MultiGradient(final List<Color> colors, final Set<Integer> boundaries) {
+    public MultiGradientFactory(final List<Color> colors, final Set<Integer> boundaries) {
         if (colors.size() != boundaries.size())
             throw new IllegalArgumentException("The size of colors and boundaries has to be equal");
 
@@ -21,13 +21,13 @@ public final class MultiGradient implements GradientColor {
             var lowerColor = colors.get(i);
             var upperColor = colors.get(i + 1);
 
-            this.gradients.add(new Gradient(upper, lower, upperColor, lowerColor));
+            this.gradientFactories.add(new GradientFactory(upper, lower, upperColor, lowerColor));
         }
     }
 
     @Override
     public Color getColor(final int value) {
-        return this.gradients.stream()
+        return this.gradientFactories.stream()
                 .filter(g -> g.getMin() <= value && g.getMax() >= value)
                 .findAny()
                 .get()
