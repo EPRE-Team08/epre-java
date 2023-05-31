@@ -5,7 +5,7 @@ import java.util.List;
 
 import ch.hslu.refashioned.service.history.ScoreService;
 
-public class ScoreRepo implements ScoreService {
+public final class ScoreRepo implements ScoreService {
     private final ScoreService scoreService;
 
     public ScoreRepo(ScoreService scoreService) {

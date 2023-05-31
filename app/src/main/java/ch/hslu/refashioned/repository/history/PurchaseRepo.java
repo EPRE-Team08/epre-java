@@ -6,7 +6,7 @@ import java.util.List;
 import ch.hslu.refashioned.model.history.Purchase;
 import ch.hslu.refashioned.service.history.PurchaseService;
 
-public class PurchaseRepo implements PurchaseService {
+public final class PurchaseRepo implements PurchaseService {
     private final PurchaseService purchaseService;
 
     public PurchaseRepo(PurchaseService purchaseService) {

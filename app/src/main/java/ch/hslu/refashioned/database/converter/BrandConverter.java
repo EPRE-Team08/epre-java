@@ -6,7 +6,7 @@ import java.util.stream.Stream;
 
 import ch.hslu.refashioned.model.history.Brand;
 
-public class BrandConverter {
+public final class BrandConverter {
     @TypeConverter
     public static int to(final Brand brand) {
         return brand.getValue();

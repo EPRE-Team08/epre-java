@@ -1,4 +1,4 @@
-package ch.hslu.refashioned.ui.info;
+package ch.hslu.refashioned.ui.purchases;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,32 +13,28 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import ch.hslu.refashioned.R;
 
-/**
- * A fragment representing a list of {@link ch.hslu.refashioned.model.info.InfoItem}.
- */
-public final class InfoFragment extends Fragment {
-    private InfoViewModel viewModel;
+public final class PurchasesFragment extends Fragment {
 
-    public InfoFragment() {
+    private PurchasesViewModel viewModel;
 
+    public PurchasesFragment() {
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.viewModel = new ViewModelProvider(this).get(InfoViewModel.class);
+        this.viewModel = new ViewModelProvider(this).get(PurchasesViewModel.class);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_info_item_list, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_purchases, container, false);
 
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(new InfoItemRecyclerViewAdapter(this.viewModel.get()));
+            recyclerView.setAdapter(new PurchasesRecyclerViewAdapter(this.viewModel.get()));
         }
         return view;
     }

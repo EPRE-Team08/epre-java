@@ -12,9 +12,6 @@ import ch.hslu.refashioned.model.info.InfoItem;
 
 import java.util.List;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link ch.hslu.refashioned.model.info.InfoItem}.
- */
 public final class InfoItemRecyclerViewAdapter extends RecyclerView.Adapter<InfoItemRecyclerViewAdapter.ViewHolder> {
     private final List<InfoItem> mValues;
 
@@ -41,7 +38,7 @@ public final class InfoItemRecyclerViewAdapter extends RecyclerView.Adapter<Info
         return mValues.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public final static class ViewHolder extends RecyclerView.ViewHolder {
         public final TextView mCategory;
         public final TextView mTitle;
         public final TextView mBrief;
@@ -57,7 +54,11 @@ public final class InfoItemRecyclerViewAdapter extends RecyclerView.Adapter<Info
         @NonNull
         @Override
         public String toString() {
-            return super.toString() + " '" + mTitle.getText() + "'";
+            return "ViewHolder{" +
+                    "mCategory=" + mCategory.getText() +
+                    ", mTitle=" + mTitle.getText() +
+                    ", mBrief=" + mBrief.getText() +
+                    '}';
         }
     }
 }
