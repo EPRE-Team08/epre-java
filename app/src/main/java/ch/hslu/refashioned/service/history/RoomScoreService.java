@@ -16,6 +16,7 @@ public final class RoomScoreService implements ScoreService {
 
     public RoomScoreService(Context context) {
         this.scoreDao = Room.databaseBuilder(context, AppDatabase.class, PurchaseRepo.class.getName())
+                .allowMainThreadQueries()
                 .build()
                 .score();
     }
