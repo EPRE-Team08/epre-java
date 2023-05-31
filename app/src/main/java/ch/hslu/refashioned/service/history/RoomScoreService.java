@@ -34,4 +34,9 @@ public final class RoomScoreService implements ScoreService {
     public int getTotal() {
         return scoreDao.getTotal();
     }
+
+    @Override
+    public int getCount() {
+        return scoreDao.getCount();
+    }
 }

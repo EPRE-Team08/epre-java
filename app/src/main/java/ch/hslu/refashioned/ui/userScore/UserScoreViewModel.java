@@ -9,40 +9,38 @@ import androidx.lifecycle.AndroidViewModel;
 import java.util.stream.Stream;
 
 import ch.hslu.refashioned.model.history.Brand;
-import ch.hslu.refashioned.model.history.Purchase;
-import ch.hslu.refashioned.repository.history.PurchaseRepo;
-import ch.hslu.refashioned.service.history.PurchaseService;
-import ch.hslu.refashioned.service.history.RoomPurchaseService;
+import ch.hslu.refashioned.repository.history.ScoreRepo;
+import ch.hslu.refashioned.service.history.RoomScoreService;
+import ch.hslu.refashioned.service.history.ScoreService;
 import ch.hslu.refashioned.ui.color.GradientProvider;
 
 public final class UserScoreViewModel extends AndroidViewModel {
-    private final PurchaseService service;
-
-    private final Integer score;
-    private final int maxScore;
-    private final int minScore;
+    private final ScoreService service;
 
     public UserScoreViewModel(@NonNull Application application) {
         super(application);
 
-        this.service = new PurchaseRepo(new RoomPurchaseService(application));
-
-        this.score = service.getAll().stream().mapToInt(Purchase::getScore).sum();
-        this.maxScore = Stream.of(Brand.values()).mapToInt(b -> b.getScore().getOverall()).max().orElse(0) * service.getAll().size();
-        this.minScore = Stream.of(Brand.values()).mapToInt(b -> b.getScore().getOverall()).min().orElse(0) * service.getAll().size();
+        this.service = new ScoreRepo(new RoomScoreService(application));
     }
 
     public int getScore() {
-        return this.score;
+        return this.service.getTotal();
     }
 
     public Color getScoreColor() {
-        return getColor(this.minScore, this.maxScore, this.score);
+        return getColor(getMinScore(), getMaxScore(), getScore());
     }
 
     private Color getColor(final int min, final int max, final int score) {
         var gradient = GradientProvider.getScoreGradient(min, max);
         return gradient.getColor(score);
+    }
 
+    private int getMaxScore() {
+        return Stream.of(Brand.values()).mapToInt(b -> b.getScore().getOverall()).max().orElse(0) * service.getCount();
+    }
+
+    private int getMinScore() {
+        return Stream.of(Brand.values()).mapToInt(b -> b.getScore().getOverall()).min().orElse(0) * service.getCount();
     }
 }
