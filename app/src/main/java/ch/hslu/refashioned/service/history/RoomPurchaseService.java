@@ -17,8 +17,12 @@ public final class RoomPurchaseService implements PurchaseService {
 
     public RoomPurchaseService(Context context) {
         this.purchaseDao = Room.databaseBuilder(context, AppDatabase.class, PurchaseRepo.class.getName())
+                .allowMainThreadQueries()
                 .build()
                 .purchase();
+
+        if (this.getAll().size() == 0)
+            new MockPurchaseService().getAll().forEach(this::create);
     }
 
 

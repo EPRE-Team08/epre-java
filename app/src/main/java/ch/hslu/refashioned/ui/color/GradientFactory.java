@@ -2,14 +2,14 @@ package ch.hslu.refashioned.ui.color;
 
 import android.graphics.Color;
 
-public final class Gradient implements GradientColor {
+public final class GradientFactory implements ColorFactory {
     private final int max;
     private final int min;
 
     private final Color maxColor;
     private final Color minColor;
 
-    public Gradient(final int max, final int min, final Color maxColor, final Color minColor) {
+    public GradientFactory(final int max, final int min, final Color maxColor, final Color minColor) {
         if (!minColor.getColorSpace().equals(maxColor.getColorSpace()))
             throw new IllegalArgumentException("maxColor and minColor must have the same ColorSpace");
 

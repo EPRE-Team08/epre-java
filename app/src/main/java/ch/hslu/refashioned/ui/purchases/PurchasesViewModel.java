@@ -9,21 +9,19 @@ import java.util.List;
 
 import ch.hslu.refashioned.model.history.Purchase;
 import ch.hslu.refashioned.repository.history.PurchaseRepo;
-import ch.hslu.refashioned.service.history.MockPurchaseService;
 import ch.hslu.refashioned.service.history.PurchaseService;
+import ch.hslu.refashioned.service.history.RoomPurchaseService;
 
 public final class PurchasesViewModel extends AndroidViewModel {
     private final PurchaseService service;
-    private final List<Purchase> purchases;
 
     public PurchasesViewModel(@NonNull Application application) {
         super(application);
 
-        this.service = new PurchaseRepo(new MockPurchaseService()); //new RoomPurchaseService(application.getApplicationContext));
-        this.purchases = this.service.getAll();
+        this.service = new PurchaseRepo(new RoomPurchaseService(application));
     }
 
     public List<Purchase> get() {
-        return purchases;
+        return service.getAll();
     }
 }

@@ -5,52 +5,42 @@ import android.graphics.Color;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import java.util.stream.Stream;
 
 import ch.hslu.refashioned.model.history.Brand;
-import ch.hslu.refashioned.model.history.Purchase;
-import ch.hslu.refashioned.repository.history.PurchaseRepo;
-import ch.hslu.refashioned.service.history.MockPurchaseService;
-import ch.hslu.refashioned.service.history.PurchaseService;
+import ch.hslu.refashioned.repository.history.ScoreRepo;
+import ch.hslu.refashioned.service.history.RoomScoreService;
+import ch.hslu.refashioned.service.history.ScoreService;
 import ch.hslu.refashioned.ui.color.GradientProvider;
 
 public final class UserScoreViewModel extends AndroidViewModel {
-    private final PurchaseService service;
-
-    private final MutableLiveData<Integer> score;
-    private final MutableLiveData<Color> scoreColor;
-    private final int maxScore;
-    private final int minScore;
+    private final ScoreService service;
 
     public UserScoreViewModel(@NonNull Application application) {
         super(application);
 
-        this.service = new PurchaseRepo(new MockPurchaseService());
-
-        this.score = new MutableLiveData<>(service.getAll().stream().mapToInt(Purchase::getScore).sum());
-        this.maxScore = Stream.of(Brand.values()).mapToInt(b -> b.getScore().getOverall()).max().orElse(0) * service.getAll().size();
-        this.minScore = Stream.of(Brand.values()).mapToInt(b -> b.getScore().getOverall()).min().orElse(0) * service.getAll().size();
-        this.scoreColor = new MutableLiveData<>(getColor(minScore, maxScore, score.getValue()));
+        this.service = new ScoreRepo(new RoomScoreService(application));
     }
 
-    public LiveData<Integer> getScore() {
-        return score;
+    public int getScore() {
+        return this.service.getTotal();
     }
 
-    public LiveData<Color> getScoreColor() {
-        return scoreColor;
-    }
-
-    private void updateColor(final int min, final int max) {
-        this.scoreColor.postValue(getColor(min, max, score.getValue()));
+    public Color getScoreColor() {
+        return getColor(getMinScore(), getMaxScore(), getScore());
     }
 
     private Color getColor(final int min, final int max, final int score) {
         var gradient = GradientProvider.getScoreGradient(min, max);
         return gradient.getColor(score);
+    }
 
+    private int getMaxScore() {
+        return Stream.of(Brand.values()).mapToInt(b -> b.getScore().getOverall()).max().orElse(0) * service.getCount();
+    }
+
+    private int getMinScore() {
+        return Stream.of(Brand.values()).mapToInt(b -> b.getScore().getOverall()).min().orElse(0) * service.getCount();
     }
 }

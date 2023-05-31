@@ -6,4 +6,5 @@ import ch.hslu.refashioned.service.ReadService;
 
 public interface ScoreService extends ReadService<Integer, LocalDateTime> {
     int getTotal();
+    int getCount();
 }

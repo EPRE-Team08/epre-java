@@ -16,4 +16,7 @@ public interface ScoreDao {
 
     @Query("SELECT SUM(score) FROM Purchase")
     int getTotal();
+
+    @Query("SELECT COUNT(score) FROM Purchase")
+    int getCount();
 }
