@@ -12,13 +12,17 @@ import ch.hslu.refashioned.database.dao.PurchaseDao;
 import ch.hslu.refashioned.model.history.Purchase;
 import ch.hslu.refashioned.repository.history.PurchaseRepo;
 
-public class RoomPurchaseService implements PurchaseService {
+public final class RoomPurchaseService implements PurchaseService {
     private final PurchaseDao purchaseDao;
 
     public RoomPurchaseService(Context context) {
         this.purchaseDao = Room.databaseBuilder(context, AppDatabase.class, PurchaseRepo.class.getName())
+                .allowMainThreadQueries()
                 .build()
                 .purchase();
+
+        if (this.getAll().size() == 0)
+            new MockPurchaseService().getAll().forEach(this::create);
     }
 
 

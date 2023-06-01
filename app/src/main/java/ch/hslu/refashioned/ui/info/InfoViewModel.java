@@ -10,11 +10,11 @@ import ch.hslu.refashioned.service.info.InfoItemService;
 import ch.hslu.refashioned.service.info.MockInfoItemService;
 
 public final class InfoViewModel extends ViewModel {
-    private final InfoItemService infoItemService = new InfoItemRepo(new MockInfoItemService());
+    private final InfoItemService service = new InfoItemRepo(new MockInfoItemService());
     private final List<InfoItem> infoItems;
 
     public InfoViewModel() {
-        this.infoItems = infoItemService.getAll();
+        this.infoItems = service.getAll();
     }
 
     public List<InfoItem> get() {

@@ -11,11 +11,12 @@ import ch.hslu.refashioned.database.AppDatabase;
 import ch.hslu.refashioned.database.dao.ScoreDao;
 import ch.hslu.refashioned.repository.history.PurchaseRepo;
 
-public class RoomScoreService implements ScoreService {
+public final class RoomScoreService implements ScoreService {
     private final ScoreDao scoreDao;
 
     public RoomScoreService(Context context) {
         this.scoreDao = Room.databaseBuilder(context, AppDatabase.class, PurchaseRepo.class.getName())
+                .allowMainThreadQueries()
                 .build()
                 .score();
     }
@@ -32,5 +33,10 @@ public class RoomScoreService implements ScoreService {
 
     public int getTotal() {
         return scoreDao.getTotal();
+    }
+
+    @Override
+    public int getCount() {
+        return scoreDao.getCount();
     }
 }
