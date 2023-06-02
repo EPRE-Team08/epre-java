@@ -11,8 +11,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
-        android:minHeight="250dp"
-        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:maxHeight="250dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/baseline_image_not_supported"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,35 +33,45 @@
         tools:layout_editor_absoluteX="175dp"
         tools:layout_editor_absoluteY="295dp" />
 
-    <com.github.mikephil.charting.charts.LineChart
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="@string/chart_description"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toTopOf="@id/chart"
+        app:layout_constraintLeft_toLeftOf="parent"
+        tools:ignore="SmallSp" />
+
+    <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/chart"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="34dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textView" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btn_cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/baseline_cancel"
         android:backgroundTint="@color/red"
+        android:drawableLeft="@drawable/baseline_cancel"
         android:text="@string/cancel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/button2"
+        app:layout_constraintRight_toLeftOf="@id/btn_add"
         app:layout_constraintTop_toBottomOf="@id/chart" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btn_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:drawableLeft="@drawable/ic_history"
         android:text="@string/add_to_history"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/button"
+        app:layout_constraintLeft_toRightOf="@id/btn_cancel"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/chart" />
 
