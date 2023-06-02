@@ -2,6 +2,7 @@ package ch.hslu.refashioned.ui.home;
 
 import android.Manifest;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -24,16 +25,15 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import ch.hslu.refashioned.databinding.FragmentScanBinding;
-import ch.hslu.refashioned.model.history.Purchase;
-import ch.hslu.refashioned.model.history.PurchaseType;
+import ch.hslu.refashioned.model.history.Brand;
 import ch.hslu.refashioned.ui.permission.PermissionManager;
+import ch.hslu.refashioned.ui.scanInfo.ScanInfoActivity;
 
 public class ScanFragment extends Fragment {
     private static final String FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS";
@@ -46,6 +46,8 @@ public class ScanFragment extends Fragment {
         @Override
         public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
             scanViewModel.setSavedUri(outputFileResults.getSavedUri());
+            //ToDo classify image
+            startScanInfoActivity();
         }
 
         @Override
@@ -120,6 +122,13 @@ public class ScanFragment extends Fragment {
         Preview preview = new Preview.Builder().build();
         preview.setSurfaceProvider(binding.viewFinder.getSurfaceProvider());
         return preview;
+    }
+
+    private void startScanInfoActivity() {
+        Intent intent = new Intent(requireActivity(), ScanInfoActivity.class);
+        intent.putExtra(ScanInfoActivity.EXTRA_BRAND_VALUE, Brand.PUMA.getValue());
+        intent.putExtra(ScanInfoActivity.EXTRA_IMAGE_URI, scanViewModel.getSavedUri());
+        requireActivity().startActivity(intent);
     }
 
     @Override

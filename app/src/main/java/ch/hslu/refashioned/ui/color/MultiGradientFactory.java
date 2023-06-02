@@ -30,7 +30,7 @@ public final class MultiGradientFactory implements ColorFactory {
         return this.gradientFactories.stream()
                 .filter(g -> g.getMin() <= value && g.getMax() >= value)
                 .findAny()
-                .get()
+                .orElseGet(() -> new GradientFactory(0, 0, Color.valueOf(Color.BLACK), Color.valueOf(Color.BLACK)))
                 .getColor(value);
     }
 }
