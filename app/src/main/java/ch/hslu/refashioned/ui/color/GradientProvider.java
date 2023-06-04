@@ -12,7 +12,9 @@ import ch.hslu.refashioned.model.sustainability.Score;
 public final class GradientProvider {
     @SuppressWarnings("OptionalGetWithoutIsPresent")
     public static ColorFactory getScoreGradient() {
-        return getScoreGradient(Score.MIN_SCORE, Score.MAX_SCORE);
+        var max = Stream.of(Brand.values()).mapToInt(b -> b.getScore().getOverall()).max().getAsInt();
+
+        return getScoreGradient(Score.MIN_SCORE, max);
     }
 
     public static ColorFactory getScoreGradient(int min, int max) {
