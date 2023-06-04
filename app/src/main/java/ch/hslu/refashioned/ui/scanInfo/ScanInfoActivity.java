@@ -2,9 +2,7 @@ package ch.hslu.refashioned.ui.scanInfo;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -15,6 +13,7 @@ import java.util.stream.IntStream;
 import ch.hslu.refashioned.R;
 import ch.hslu.refashioned.database.converter.BrandConverter;
 import ch.hslu.refashioned.databinding.ActivityScanInfoBinding;
+import ch.hslu.refashioned.ui.util.FileUtil;
 
 public class ScanInfoActivity extends AppCompatActivity {
     public static final String EXTRA_BRAND_VALUE = "EXTRA_BRAND_VALUE";
@@ -67,17 +66,7 @@ public class ScanInfoActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        deleteImage();
+        FileUtil.deleteImage(this, this.viewModel.getImageUri());
         super.onBackPressed();
-    }
-
-    private void deleteImage() {
-        int rowsDeleted = this.getContentResolver().delete(this.viewModel.getImageUri(), null, null);
-        if (rowsDeleted < 1) {
-            Log.e(ScanInfoActivity.class.getName(), "Could not delete image");
-            Toast.makeText(this, "Could not delete image", Toast.LENGTH_SHORT).show();
-        } else {
-            Log.i(ScanInfoActivity.class.getName(), "Image deleted");
-        }
     }
 }
