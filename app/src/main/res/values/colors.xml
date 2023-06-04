@@ -2,11 +2,18 @@
 <resources>
     <color name="green_score">#40C060</color>
     <color name="green_200">#beef89</color>
-    <color name="purple_500">#abd77b</color>
-    <color name="purple_700">#98bf6d</color>
+    <color name="green_500">#abd77b</color>
+    <color name="green_700">#98bf6d</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
+    <color name="red">#CA1010</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="ic_launcher_background">#A8BEA9</color>
+    <color name="transparent">#00FFFFFF</color>
+    <color name="orange">#FF9800</color>
+    <color name="light_green">#8BC34A</color>
+    <color name="light_blue">#00BCD4</color>
+    <color name="purple">#9C27B0</color>
+    <color name="pink">#E91E63</color>
 </resources>

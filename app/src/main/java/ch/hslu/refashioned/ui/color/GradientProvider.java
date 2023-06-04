@@ -7,14 +7,14 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import ch.hslu.refashioned.model.history.Brand;
+import ch.hslu.refashioned.model.sustainability.Score;
 
 public final class GradientProvider {
     @SuppressWarnings("OptionalGetWithoutIsPresent")
     public static ColorFactory getScoreGradient() {
-        var min = Stream.of(Brand.values()).mapToInt(b -> b.getScore().getOverall()).min().getAsInt();
         var max = Stream.of(Brand.values()).mapToInt(b -> b.getScore().getOverall()).max().getAsInt();
 
-        return getScoreGradient(min, max);
+        return getScoreGradient(Score.MIN_SCORE, max);
     }
 
     public static ColorFactory getScoreGradient(int min, int max) {

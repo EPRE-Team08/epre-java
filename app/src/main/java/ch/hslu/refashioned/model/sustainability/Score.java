@@ -1,6 +1,8 @@
 package ch.hslu.refashioned.model.sustainability;
 
 public class Score {
+    public static final int MAX_SCORE = 100;
+    public static final int MIN_SCORE = 0;
     private final int overall;
     private final int emissions;
     private final int transparency;

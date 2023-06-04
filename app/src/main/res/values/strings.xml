@@ -5,7 +5,9 @@
     <string name="title_map">Shops</string>
     <string name="title_info">Info</string>
     <string name="title_advertisement">Advertisement</string>
+    <string name="brand">BRAND</string>
+    <string name="add_to_history">Add to History</string>
+    <string name="cancel">Cancel</string>
     <string name="total_score">Total Score</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="chart_description">The higher the score, the better the sustainability.</string>
 </resources>
