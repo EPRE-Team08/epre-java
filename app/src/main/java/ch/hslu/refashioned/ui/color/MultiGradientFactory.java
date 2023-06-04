@@ -8,8 +8,10 @@ import java.util.Set;
 
 public final class MultiGradientFactory implements ColorFactory {
     private final List<GradientFactory> gradientFactories = new ArrayList<>();
+    private final Color fallbackColor;
 
-    public MultiGradientFactory(final List<Color> colors, final Set<Integer> boundaries) {
+    public MultiGradientFactory(final List<Color> colors, final Set<Integer> boundaries, Color fallbackColor) {
+        this.fallbackColor = fallbackColor;
         if (colors.size() != boundaries.size())
             throw new IllegalArgumentException("The size of colors and boundaries has to be equal");
 
@@ -25,12 +27,16 @@ public final class MultiGradientFactory implements ColorFactory {
         }
     }
 
+    public MultiGradientFactory(final List<Color> colors, final Set<Integer> boundaries) {
+        this(colors, boundaries, Color.valueOf(Color.BLACK));
+    }
+
     @Override
     public Color getColor(final int value) {
         return this.gradientFactories.stream()
                 .filter(g -> g.getMin() <= value && g.getMax() >= value)
                 .findAny()
-                .orElseGet(() -> new GradientFactory(0, 0, Color.valueOf(Color.BLACK), Color.valueOf(Color.BLACK)))
-                .getColor(value);
+                .map(factory -> factory.getColor(value))
+                .orElseGet(() -> fallbackColor);
     }
 }
