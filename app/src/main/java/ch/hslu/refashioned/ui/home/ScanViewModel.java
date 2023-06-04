@@ -1,28 +1,28 @@
 package ch.hslu.refashioned.ui.home;
 
-import android.app.Application;
-import android.content.Context;
 import android.net.Uri;
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import ch.hslu.refashioned.model.history.Purchase;
-import ch.hslu.refashioned.repository.history.PurchaseRepo;
-import ch.hslu.refashioned.service.history.PurchaseService;
-import ch.hslu.refashioned.service.history.RoomPurchaseService;
+import ch.hslu.refashioned.model.history.Brand;
 
 public class ScanViewModel extends ViewModel {
-    private Uri savedUri;
+    private Uri imageUri;
+    private Brand brand;
 
-    public Uri getSavedUri() {
-        return savedUri;
+    public Uri getImageUri() {
+        return imageUri;
     }
 
-    public void setSavedUri(Uri savedUri) {
-        this.savedUri = savedUri;
+    public void setImageUri(Uri imageUri) {
+        this.imageUri = imageUri;
+    }
+
+    public Brand getBrand() {
+        return brand;
+    }
+
+    public void setBrand(Brand brand) {
+        this.brand = brand;
     }
 }

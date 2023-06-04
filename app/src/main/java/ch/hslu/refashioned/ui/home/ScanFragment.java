@@ -3,6 +3,8 @@ package ch.hslu.refashioned.ui.home;
 import android.Manifest;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -10,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,6 +27,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.common.util.concurrent.ListenableFuture;
 
+import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
@@ -32,6 +36,8 @@ import java.util.concurrent.Executors;
 
 import ch.hslu.refashioned.databinding.FragmentScanBinding;
 import ch.hslu.refashioned.model.history.Brand;
+import ch.hslu.refashioned.service.classification.BrandClassificationService;
+import ch.hslu.refashioned.service.classification.PytorchBrandClassificationService;
 import ch.hslu.refashioned.ui.permission.PermissionManager;
 import ch.hslu.refashioned.ui.scanInfo.ScanInfoActivity;
 
@@ -45,9 +51,30 @@ public class ScanFragment extends Fragment {
     private final ImageCapture.OnImageSavedCallback imageSavedCallback = new ImageCapture.OnImageSavedCallback() {
         @Override
         public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
-            scanViewModel.setSavedUri(outputFileResults.getSavedUri());
-            //ToDo classify image
-            startScanInfoActivity();
+            scanViewModel.setImageUri(outputFileResults.getSavedUri());
+            showLoading();
+            Thread thread = new Thread(() -> {
+                BrandClassificationService service = new PytorchBrandClassificationService(requireContext());
+                try {
+                    Bitmap bitmap = BitmapFactory.decodeStream(requireActivity().getContentResolver().openInputStream(scanViewModel.getImageUri()));
+                    service.classifyBrand(bitmap, this::onBrandClassified);
+                } catch (FileNotFoundException e) {
+                    Log.e("ScanFragment", "Could not find image file!", e);
+                    requireActivity().runOnUiThread(() -> Toast.makeText(requireContext(), "Could not classify brand!", Toast.LENGTH_LONG).show());
+                } finally {
+                    requireActivity().runOnUiThread(() -> hideLoading());
+                }
+            });
+            thread.start();
+        }
+
+        private void onBrandClassified(Brand brand) {
+            if (brand == null) {
+                requireActivity().runOnUiThread(() -> Toast.makeText(requireContext(), "Could not classify brand!", Toast.LENGTH_LONG).show());
+            } else {
+                scanViewModel.setBrand(brand);
+                startScanInfoActivity();
+            }
         }
 
         @Override
@@ -126,9 +153,23 @@ public class ScanFragment extends Fragment {
 
     private void startScanInfoActivity() {
         Intent intent = new Intent(requireActivity(), ScanInfoActivity.class);
-        intent.putExtra(ScanInfoActivity.EXTRA_BRAND_VALUE, Brand.PUMA.getValue());
-        intent.putExtra(ScanInfoActivity.EXTRA_IMAGE_URI, scanViewModel.getSavedUri());
+        intent.putExtra(ScanInfoActivity.EXTRA_BRAND_VALUE, scanViewModel.getBrand().getValue());
+        intent.putExtra(ScanInfoActivity.EXTRA_IMAGE_URI, scanViewModel.getImageUri());
         requireActivity().startActivity(intent);
+    }
+
+    private void showLoading() {
+        ImageView imageView = binding.imageView;
+        imageView.setImageURI(scanViewModel.getImageUri());
+        imageView.setVisibility(View.VISIBLE);
+        binding.progressBar.setVisibility(View.VISIBLE);
+        binding.imageCaptureButton.setEnabled(false);
+    }
+
+    private void hideLoading() {
+        binding.imageView.setVisibility(View.INVISIBLE);
+        binding.progressBar.setVisibility(View.INVISIBLE);
+        binding.imageCaptureButton.setEnabled(true);
     }
 
     @Override
