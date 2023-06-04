@@ -40,10 +40,11 @@ import ch.hslu.refashioned.service.classification.BrandClassificationService;
 import ch.hslu.refashioned.service.classification.PytorchBrandClassificationService;
 import ch.hslu.refashioned.ui.permission.PermissionManager;
 import ch.hslu.refashioned.ui.scanInfo.ScanInfoActivity;
+import ch.hslu.refashioned.ui.util.FileUtil;
 
 public class ScanFragment extends Fragment {
     private static final String FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS";
-    private ScanViewModel scanViewModel;
+    private ScanViewModel viewModel;
     private FragmentScanBinding binding;
     private ImageCapture imageCapture;
     private ExecutorService cameraExecutor;
@@ -51,16 +52,16 @@ public class ScanFragment extends Fragment {
     private final ImageCapture.OnImageSavedCallback imageSavedCallback = new ImageCapture.OnImageSavedCallback() {
         @Override
         public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
-            scanViewModel.setImageUri(outputFileResults.getSavedUri());
+            viewModel.setImageUri(outputFileResults.getSavedUri());
             showLoading();
             Thread thread = new Thread(() -> {
                 BrandClassificationService service = new PytorchBrandClassificationService(requireContext());
                 try {
-                    Bitmap bitmap = BitmapFactory.decodeStream(requireActivity().getContentResolver().openInputStream(scanViewModel.getImageUri()));
+                    Bitmap bitmap = BitmapFactory.decodeStream(requireActivity().getContentResolver().openInputStream(viewModel.getImageUri()));
                     service.classifyBrand(bitmap, this::onBrandClassified);
                 } catch (FileNotFoundException e) {
                     Log.e("ScanFragment", "Could not find image file!", e);
-                    requireActivity().runOnUiThread(() -> Toast.makeText(requireContext(), "Could not classify brand!", Toast.LENGTH_LONG).show());
+                    requireActivity().runOnUiThread(() -> Toast.makeText(requireContext(), "Error occurred!", Toast.LENGTH_LONG).show());
                 } finally {
                     requireActivity().runOnUiThread(() -> hideLoading());
                 }
@@ -70,9 +71,12 @@ public class ScanFragment extends Fragment {
 
         private void onBrandClassified(Brand brand) {
             if (brand == null) {
-                requireActivity().runOnUiThread(() -> Toast.makeText(requireContext(), "Could not classify brand!", Toast.LENGTH_LONG).show());
+                requireActivity().runOnUiThread(() -> {
+                    FileUtil.deleteImage(requireActivity(), viewModel.getImageUri());
+                    Toast.makeText(requireContext(), "Could not classify brand!", Toast.LENGTH_LONG).show();
+                });
             } else {
-                scanViewModel.setBrand(brand);
+                viewModel.setBrand(brand);
                 startScanInfoActivity();
             }
         }
@@ -86,7 +90,7 @@ public class ScanFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        scanViewModel = new ViewModelProvider(this).get(ScanViewModel.class);
+        viewModel = new ViewModelProvider(this).get(ScanViewModel.class);
         binding = FragmentScanBinding.inflate(inflater, container, false);
         imageCapture = new ImageCapture.Builder().build();
         cameraExecutor = Executors.newSingleThreadExecutor();
@@ -153,14 +157,14 @@ public class ScanFragment extends Fragment {
 
     private void startScanInfoActivity() {
         Intent intent = new Intent(requireActivity(), ScanInfoActivity.class);
-        intent.putExtra(ScanInfoActivity.EXTRA_BRAND_VALUE, scanViewModel.getBrand().getValue());
-        intent.putExtra(ScanInfoActivity.EXTRA_IMAGE_URI, scanViewModel.getImageUri());
+        intent.putExtra(ScanInfoActivity.EXTRA_BRAND_VALUE, viewModel.getBrand().getValue());
+        intent.putExtra(ScanInfoActivity.EXTRA_IMAGE_URI, viewModel.getImageUri());
         requireActivity().startActivity(intent);
     }
 
     private void showLoading() {
         ImageView imageView = binding.imageView;
-        imageView.setImageURI(scanViewModel.getImageUri());
+        imageView.setImageURI(viewModel.getImageUri());
         imageView.setVisibility(View.VISIBLE);
         binding.progressBar.setVisibility(View.VISIBLE);
         binding.imageCaptureButton.setEnabled(false);
