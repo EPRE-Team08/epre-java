@@ -21,9 +21,6 @@ public final class RoomPurchaseService implements PurchaseService {
                 .allowMainThreadQueries()
                 .build()
                 .purchase();
-
-        if (this.getAll().size() == 0)
-            new MockPurchaseService().getAll().forEach(this::create);
     }
 
 
