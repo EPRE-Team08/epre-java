@@ -50,4 +50,18 @@ public final class Purchase {
     public Brand getBrand() {
         return brand;
     }
+
+    /**
+     * Two items of the same type allowed per month. Afterwards the score drops.
+     *
+     * @param purchaseType           The type of the purchase.
+     * @param brand                  The brand of the clothing.
+     * @param countPurchaseLastMonth The number of purchases of the same type in the last month.
+     * @return The score of the purchase.
+     */
+    public static int calculateScore(PurchaseType purchaseType, Brand brand, int countPurchaseLastMonth) {
+        countPurchaseLastMonth = countPurchaseLastMonth > 1 ? countPurchaseLastMonth - 1 : 1;
+        float result = purchaseType.getScoreFactor() / countPurchaseLastMonth * brand.getScore().getOverall();
+        return Math.round(result);
+    }
 }

@@ -6,11 +6,10 @@
 
     <ImageView
         android:id="@+id/scanned_image"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_width="75dp"
+        android:layout_height="110dp"
         android:importantForAccessibility="no"
-        android:minWidth="75dp"
-        android:maxWidth="75dp"
+        android:scaleType="fitCenter"
         android:src="@drawable/ic_history" />
 
     <LinearLayout
@@ -23,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin_secondary"
-            android:hint="Category"
+            android:hint="@string/category"
             android:textAppearance="?attr/textAppearanceListItemSmall" />
 
         <LinearLayout
@@ -44,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/text_margin_secondary"
                 android:textStyle="bold"
-                android:hint="Score"
+                android:hint="@string/score"
                 android:textAppearance="?attr/textAppearanceListItem" />
 
         </LinearLayout>
@@ -54,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin_secondary"
-            android:hint="Date"
+            android:hint="@string/date"
             android:textAppearance="?attr/textAppearanceListItemSecondary" />
 
         <com.google.android.material.divider.MaterialDivider

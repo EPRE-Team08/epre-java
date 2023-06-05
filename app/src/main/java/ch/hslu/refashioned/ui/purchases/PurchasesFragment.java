@@ -34,7 +34,7 @@ public final class PurchasesFragment extends Fragment {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(new PurchasesRecyclerViewAdapter(this.viewModel.get()));
+            recyclerView.setAdapter(new PurchasesRecyclerViewAdapter(requireContext(), this.viewModel.get()));
         }
         return view;
     }
