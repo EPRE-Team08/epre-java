@@ -1,5 +1,6 @@
 package ch.hslu.refashioned.ui.userScore;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import ch.hslu.refashioned.databinding.FragmentUserScoreBinding;
+import ch.hslu.refashioned.ui.util.ThemeUtil;
 
 public final class UserScoreFragment extends Fragment {
     private UserScoreViewModel viewModel;
@@ -28,10 +30,10 @@ public final class UserScoreFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         this.binding = FragmentUserScoreBinding.inflate(inflater, container, false);
-
         this.binding.score.setText(String.valueOf(this.viewModel.getScore()));
         this.binding.score.setTextColor(this.viewModel.getScoreColor().toArgb());
-
+        int textColor = ThemeUtil.isDarkTheme(getResources()) ? Color.WHITE : Color.BLACK;
+        this.binding.icEco.setColorFilter(textColor);
         return this.binding.getRoot();
     }
 }
