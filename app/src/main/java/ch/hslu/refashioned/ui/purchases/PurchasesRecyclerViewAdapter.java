@@ -1,5 +1,7 @@
 package ch.hslu.refashioned.ui.purchases;
 
+import android.content.ContentResolver;
+import android.content.Context;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -7,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.documentfile.provider.DocumentFile;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -21,9 +24,11 @@ public final class PurchasesRecyclerViewAdapter extends RecyclerView.Adapter<Pur
 
     private final ColorFactory colorFactory = GradientProvider.getScoreGradient();
     private final List<Purchase> mValues;
+    private final Context context;
 
-    public PurchasesRecyclerViewAdapter(final List<Purchase> items) {
+    public PurchasesRecyclerViewAdapter(Context context, final List<Purchase> items) {
         mValues = items;
+        this.context = context;
     }
 
     @NonNull
@@ -35,8 +40,13 @@ public final class PurchasesRecyclerViewAdapter extends RecyclerView.Adapter<Pur
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        if (!holder.mItem.getImagePath().isEmpty())
-            holder.mImage.setImageURI(Uri.parse(holder.mItem.getImagePath()));
+        if (!holder.mItem.getImagePath().isEmpty()) {
+            Uri uri = Uri.parse(holder.mItem.getImagePath());
+            DocumentFile documentFile = DocumentFile.fromSingleUri(context, uri);
+            if (documentFile != null && documentFile.exists()) {
+                holder.mImage.setImageURI(uri);
+            }
+        }
         holder.mCategory.setText(holder.mItem.getClothingType().getLabel());
         holder.mBrand.setText(holder.mItem.getBrand().getLabel());
         holder.mDate.setText(holder.mItem.getDateTime().format(DateFormats.getDefault()));
