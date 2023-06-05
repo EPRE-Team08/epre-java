@@ -3,6 +3,7 @@ package ch.hslu.refashioned.service.history;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import ch.hslu.refashioned.model.history.Brand;
 import ch.hslu.refashioned.model.history.ClothingType;
@@ -61,5 +62,10 @@ public final class MockPurchaseService implements PurchaseService {
     @Override
     public void update(Purchase item) {
         // Forget about it
+    }
+
+    @Override
+    public int countPurchaseBy(LocalDateTime minDate, ClothingType clothingType) {
+        return new Random().nextInt(10);
     }
 }

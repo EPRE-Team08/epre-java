@@ -9,6 +9,7 @@ import java.util.List;
 
 import ch.hslu.refashioned.database.AppDatabase;
 import ch.hslu.refashioned.database.dao.PurchaseDao;
+import ch.hslu.refashioned.model.history.ClothingType;
 import ch.hslu.refashioned.model.history.Purchase;
 import ch.hslu.refashioned.repository.history.PurchaseRepo;
 
@@ -49,5 +50,10 @@ public final class RoomPurchaseService implements PurchaseService {
     @Override
     public void update(Purchase item) {
         purchaseDao.update(item);
+    }
+
+    @Override
+    public int countPurchaseBy(LocalDateTime minDate, ClothingType clothingType) {
+        return purchaseDao.CountPurchaseBy(minDate, clothingType);
     }
 }
