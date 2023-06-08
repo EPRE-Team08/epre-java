@@ -32,7 +32,7 @@ public final class UserScoreViewModel extends AndroidViewModel {
     }
 
     private Color getColor(final int min, final int max, final int score) {
-        var gradient = GradientProvider.getScoreGradient(min, max);
+        var gradient = GradientProvider.getGradient(min, max);
         return gradient.getColor(score);
     }
 

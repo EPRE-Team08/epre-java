@@ -16,6 +16,7 @@ import java.util.stream.IntStream;
 import ch.hslu.refashioned.R;
 import ch.hslu.refashioned.database.converter.BrandConverter;
 import ch.hslu.refashioned.databinding.ActivityScanInfoBinding;
+import ch.hslu.refashioned.model.history.Brand;
 import ch.hslu.refashioned.model.history.ClothingType;
 import ch.hslu.refashioned.model.history.Purchase;
 import ch.hslu.refashioned.model.history.PurchaseType;
@@ -81,8 +82,9 @@ public class ScanInfoActivity extends AppCompatActivity implements PurchaseAddDi
     @Override
     public void onDialogPositiveClick(PurchaseType purchaseType, ClothingType clothingType) {
         int cntPurchasesLastMonth = viewModel.getCountPurchaseByLastMonth(clothingType);
-        int score = Purchase.calculateScore(purchaseType, viewModel.getBrand(), cntPurchasesLastMonth);
-        Purchase purchase = new Purchase(LocalDateTime.now(), viewModel.getImageUri().toString(), purchaseType, clothingType, viewModel.getBrand(), score);
+        float factor = Purchase.calculateSustainabilityFactor(purchaseType, cntPurchasesLastMonth);
+        Brand brand = viewModel.getBrand();
+        Purchase purchase = new Purchase(LocalDateTime.now(), viewModel.getImageUri().toString(), purchaseType, clothingType, brand, brand.getScore().getOverall(), factor);
         viewModel.insertPurchase(purchase);
         Log.d("ScanInfoActivity", "onDialogPositiveClick: " + clothingType + " " + clothingType);
         super.onBackPressed();

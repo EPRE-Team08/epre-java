@@ -16,6 +16,7 @@ import ch.hslu.refashioned.R;
 public final class PurchasesFragment extends Fragment {
 
     private PurchasesViewModel viewModel;
+    private PurchasesRecyclerViewAdapter adapter;
 
     public PurchasesFragment() {
     }
@@ -24,6 +25,7 @@ public final class PurchasesFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.viewModel = new ViewModelProvider(this).get(PurchasesViewModel.class);
+        this.adapter = new PurchasesRecyclerViewAdapter(requireContext(), this.viewModel.get());
     }
 
     @Override
@@ -34,8 +36,18 @@ public final class PurchasesFragment extends Fragment {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(new PurchasesRecyclerViewAdapter(requireContext(), this.viewModel.get()));
+            recyclerView.setAdapter(adapter);
         }
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        this.refreshPurchases();
+    }
+
+    private void refreshPurchases() {
+        adapter.setPurchases(this.viewModel.get());
     }
 }

@@ -32,8 +32,7 @@ public final class UserScoreFragment extends Fragment {
         this.binding = FragmentUserScoreBinding.inflate(inflater, container, false);
         this.binding.score.setText(String.valueOf(this.viewModel.getScore()));
         this.binding.score.setTextColor(this.viewModel.getScoreColor().toArgb());
-        int textColor = ThemeUtil.isDarkTheme(getResources()) ? Color.WHITE : Color.BLACK;
-        this.binding.icEco.setColorFilter(textColor);
+        this.binding.icEco.setColorFilter(this.viewModel.getScoreColor().toArgb());
         return this.binding.getRoot();
     }
 }
