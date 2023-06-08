@@ -16,7 +16,7 @@
         android:minWidth="100dp"
         android:minHeight="100dp"
         android:scaleType="fitXY"
-        android:src="@drawable/outline_circle"
+        android:src="@drawable/ic_outline_circle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
@@ -31,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
-        android:src="@drawable/baseline_image_not_supported"
+        android:src="@drawable/ic_image_not_supported"
         android:visibility="invisible" />
 
     <ProgressBar

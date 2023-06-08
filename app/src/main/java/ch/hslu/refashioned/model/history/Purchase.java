@@ -15,15 +15,17 @@ public final class Purchase {
     private final PurchaseType type;
     private final ClothingType clothingType;
     private final Brand brand;
-    private final int score;
+    private final float sustainabilityFactor;
+    private final int sustainabilityScore;
 
-    public Purchase(@NonNull final LocalDateTime dateTime, final String imagePath, final PurchaseType type, final ClothingType clothingType, Brand brand, final int score) {
+    public Purchase(@NonNull final LocalDateTime dateTime, final String imagePath, final PurchaseType type, final ClothingType clothingType, Brand brand, final int sustainabilityScore, final float sustainabilityFactor) {
         this.dateTime = dateTime;
         this.imagePath = imagePath;
         this.type = type;
         this.clothingType = clothingType;
         this.brand = brand;
-        this.score = score;
+        this.sustainabilityFactor = sustainabilityFactor;
+        this.sustainabilityScore = sustainabilityScore;
     }
 
     @NonNull
@@ -44,7 +46,15 @@ public final class Purchase {
     }
 
     public int getScore() {
-        return score;
+        return Math.round(sustainabilityScore * sustainabilityFactor);
+    }
+
+    public int getSustainabilityScore() {
+        return sustainabilityScore;
+    }
+
+    public float getSustainabilityFactor() {
+        return sustainabilityFactor;
     }
 
     public Brand getBrand() {
@@ -55,13 +65,11 @@ public final class Purchase {
      * Two items of the same type allowed per month. Afterwards the score drops.
      *
      * @param purchaseType           The type of the purchase.
-     * @param brand                  The brand of the clothing.
      * @param countPurchaseLastMonth The number of purchases of the same type in the last month.
-     * @return The score of the purchase.
+     * @return The sustainability factor of the purchase based on the purchase type and the number of purchases of the same type in the last month.
      */
-    public static int calculateScore(PurchaseType purchaseType, Brand brand, int countPurchaseLastMonth) {
+    public static float calculateSustainabilityFactor(PurchaseType purchaseType, int countPurchaseLastMonth) {
         countPurchaseLastMonth = countPurchaseLastMonth > 1 ? countPurchaseLastMonth - 1 : 1;
-        float result = purchaseType.getScoreFactor() / countPurchaseLastMonth * brand.getScore().getOverall();
-        return Math.round(result);
+        return purchaseType.getScoreFactor() / countPurchaseLastMonth;
     }
 }

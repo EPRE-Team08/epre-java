@@ -13,11 +13,21 @@ import ch.hslu.refashioned.model.sustainability.Score;
 public final class GradientProvider {
     @SuppressWarnings("OptionalGetWithoutIsPresent")
     public static ColorFactory getScoreGradient() {
-        var max = Stream.of(Brand.values()).mapToInt(b -> b.getScore().getOverall()).max().getAsInt() * Stream.of(PurchaseType.values()).mapToDouble(PurchaseType::getScoreFactor).max().getAsDouble();
-        return getScoreGradient(Score.MIN_SCORE, Math.round((float) max));
+        var max = Stream.of(Brand.values()).mapToInt(b -> b.getScore().getOverall()).max().orElse(Score.MAX_SCORE) * Stream.of(PurchaseType.values()).mapToDouble(PurchaseType::getScoreFactor).max().getAsDouble();
+        return getGradient(Score.MIN_SCORE, Math.round((float) max));
     }
 
-    public static ColorFactory getScoreGradient(int min, int max) {
+    public static ColorFactory getBrandGradient() {
+        var max = Stream.of(Brand.values()).mapToInt(b -> b.getScore().getOverall()).max().orElse(Score.MAX_SCORE);
+        return getGradient(Score.MIN_SCORE, max);
+    }
+
+    public static ColorFactory getSustainabilityFactorGradient() {
+        var max = Stream.of(PurchaseType.values()).mapToInt(b -> Math.round(b.getScoreFactor() * 10)).max().orElse(10);
+        return getGradient(Score.MIN_SCORE, max);
+    }
+
+    public static ColorFactory getGradient(int min, int max) {
         if (min == max)
             min = 0;
 

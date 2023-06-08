@@ -16,4 +16,13 @@
     <string name="category">Category</string>
     <string name="score">Score</string>
     <string name="date">Date</string>
+    <string name="item_score">Item Score</string>
+    <string name="image_fo_the_scanned_clothing">Image fo the scanned clothing.</string>
+    <string name="clothing_type_upper">CLOTHING TYPE</string>
+    <string name="date_upper">DATE</string>
+    <string name="brand_sustainability">Brand Sustainability</string>
+    <string name="score_upper">SCORE</string>
+    <string name="sustainability_factor">Sustainability Factor</string>
+    <string name="sustainability_factor_explanation">Based on recently acquired clothing items and the place of purchase.</string>
+    <string name="factor_upper">FACTOR</string>
 </resources>
