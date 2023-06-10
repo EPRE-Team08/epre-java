@@ -11,7 +11,10 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
+
 import ch.hslu.refashioned.R;
+import ch.hslu.refashioned.model.history.Purchase;
 
 public final class PurchasesFragment extends Fragment {
 
@@ -48,6 +51,10 @@ public final class PurchasesFragment extends Fragment {
     }
 
     private void refreshPurchases() {
-        adapter.setPurchases(this.viewModel.get());
+        Thread thread = new Thread(() -> {
+            List<Purchase> purchases = this.viewModel.get();
+            requireActivity().runOnUiThread(() -> adapter.setPurchases(purchases));
+        });
+        thread.start();
     }
 }

@@ -5,7 +5,8 @@ public enum ClothingType {
     SWEATER(1, "Sweater"),
     JACKET(2, "Jacket"),
     PANTS(3, "Pants"),
-    SHORTS(4, "Shorts");
+    SHORTS(4, "Shorts"),
+    SHOES(5, "Shoes");
 
     private final String label;
     private final int value;
