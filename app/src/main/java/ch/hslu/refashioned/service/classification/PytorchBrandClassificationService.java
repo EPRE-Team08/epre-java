@@ -15,14 +15,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Arrays;
 import java.util.function.Consumer;
+import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 
 import ch.hslu.refashioned.database.converter.BrandConverter;
 import ch.hslu.refashioned.model.history.Brand;
 
 public class PytorchBrandClassificationService implements BrandClassificationService {
-    private final String MODEL_PATH = "model_cpu.ptl";
+    private final String MODEL_PATH = "model_cpu_v2.ptl";
     private final float PRECISION = 0.7f;
     private final Context context;
 
@@ -46,23 +48,33 @@ public class PytorchBrandClassificationService implements BrandClassificationSer
 
     private Brand getBrandFromTensor(Tensor outputTensor) {
         float[] scores = outputTensor.getDataAsFloatArray();
-        //ToDo how does the output tensor look like?
+        double[] mappedScores = IntStream.range(0, scores.length).mapToDouble(index -> scores[index]).toArray();
         Log.e("PytorchBrandClassificationService", "0: " + scores[0] + " 1: " + scores[1] + " 2: " + scores[2]);
-
+        int min = (int) Math.floor(DoubleStream.of(mappedScores).min().orElse(0));
+        int max = (int) Math.ceil(DoubleStream.of(mappedScores).max().orElse(0));
+        int add = IntStream.of(min, max).map(Math::abs).max().orElse(0);
+        double[] positiveScores = DoubleStream.of(mappedScores).map(score -> score + add).toArray();
+        double[] normalizedScores = DoubleStream.of(positiveScores).map(value -> softmax(value, positiveScores)).toArray();
+        Log.e(PytorchBrandClassificationService.class.getName(), Arrays.toString(normalizedScores));
         int maxIndex = IntStream.range(0, scores.length)
-                .reduce((i, j) -> scores[i] > scores[j] ? i : j)
+                .reduce((i, j) -> normalizedScores[i] > normalizedScores[j] ? i : j)
                 .orElse(-1);
 
-        if (maxIndex == -1 || scores[maxIndex] < PRECISION) {
+        if (maxIndex == -1 || normalizedScores[maxIndex] < PRECISION) {
             return null;
         } else {
             return BrandConverter.from(maxIndex);
         }
     }
 
+    private double softmax(double input, double[] values) {
+        double total = DoubleStream.of(values).map(Math::exp).sum();
+        return Math.exp(input) / total;
+    }
+
     private Tensor convertBitmapToTensor(Bitmap bitmap) {
-        return TensorImageUtils.bitmapToFloat32Tensor(bitmap,
-                TensorImageUtils.TORCHVISION_NORM_MEAN_RGB, TensorImageUtils.TORCHVISION_NORM_STD_RGB);
+        bitmap = Bitmap.createScaledBitmap(bitmap, 224, 224, true);
+        return TensorImageUtils.bitmapToFloat32Tensor(bitmap, TensorImageUtils.TORCHVISION_NORM_MEAN_RGB, TensorImageUtils.TORCHVISION_NORM_STD_RGB);
     }
 
     /**

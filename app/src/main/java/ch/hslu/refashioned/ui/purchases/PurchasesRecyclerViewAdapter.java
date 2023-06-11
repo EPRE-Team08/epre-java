@@ -1,6 +1,6 @@
 package ch.hslu.refashioned.ui.purchases;
 
-import android.content.ContentResolver;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -11,14 +11,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.documentfile.provider.DocumentFile;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import ch.hslu.refashioned.databinding.ActivityPurchaseDetailBinding;
 import ch.hslu.refashioned.databinding.FragmentPurchaseBinding;
 import ch.hslu.refashioned.model.history.Purchase;
 import ch.hslu.refashioned.ui.color.ColorFactory;
@@ -38,11 +35,14 @@ public final class PurchasesRecyclerViewAdapter extends RecyclerView.Adapter<Pur
         this.context = context;
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void setPurchases(final List<Purchase> purchases) {
-        this.mValues.clear();
-        this.mValues.addAll(purchases);
-        synchronized (this) {
-            this.notifyDataSetChanged();
+        if (!mValues.toArray().equals(purchases.toArray())) {
+            this.mValues.clear();
+            this.mValues.addAll(purchases);
+            synchronized (this) {
+                this.notifyDataSetChanged();
+            }
         }
     }
 
